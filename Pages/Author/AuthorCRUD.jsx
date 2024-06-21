@@ -6,18 +6,17 @@ import GenericTable from "../../Components/GenericTable";
 import { BookSeed } from "../../Data/BookSeed";
 import AuthorUpsertForm from "../../Components/AuthorUpsertForm";
 import GenericButton from "../../Components/GenericButton";
-import { array } from "prop-types";
 
 export default function Author() {
 
     const [authors, setAuthors] = useState([]);
+    const [books, setBooks] = useState([]);
+    const authorSeed = new AuthorSeed();
+    const bookSeed = new BookSeed();
 
     useEffect(() => {
-        const storedAuthors = localStorage.getItem('authors');
-        if(storedAuthors) {
-            setAuthors(JSON.parse(storedAuthors));    
-        }
-
+        setAuthors(authorSeed.getAuthors());
+        setBooks(bookSeed.getBooks());
     }, []);
 
     function handleUpdate(author) {
@@ -28,13 +27,12 @@ export default function Author() {
         alert("Delete presed " + JSON.stringify(author));
     }
 
-    function getLastId(authors) {
-        const lastObject = authors[authors.length - 1].Id;
-        alert(lastObject);
+    function getLastId(authorSeed) {    
+           
     }
 
     function handleCreate(author) {
-        const lastId = getLastId;
+        const lastId = getLastId(authorSeed);
         const id = lastId + 1;
         const newAuthor = {id, ...author};
         setAuthors([...authors, newAuthor]);
@@ -51,7 +49,8 @@ export default function Author() {
                 <h1>Author upsert</h1>
             <AuthorUpsertForm createAuthor={handleCreate}/>
             </div>
-            
+            <h1>Books</h1>
+            <GenericTable data={books} />
         </div>
     )
 }

@@ -14,8 +14,7 @@ export class AuthorSeed {
     }
     
     getAuthors() {
-
-        localStorage.setItem('author', JSON.stringify(this.authors));
+        return this.authors;
     }
 }
 
